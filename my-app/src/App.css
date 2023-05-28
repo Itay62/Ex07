@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+button {
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 10px 20px;
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.button:hover {
+  background-color: #1a73e8;
+}
+
+input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.posts {
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
