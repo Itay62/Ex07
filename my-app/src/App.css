@@ -22,6 +22,10 @@ button {
   background-color: #1a73e8;
 }
 
+.signup , .login{
+  border: 2px solid #1a73e8;
+  padding: 5px;
+}
 input {
   padding: 8px;
   font-size: 16px;
