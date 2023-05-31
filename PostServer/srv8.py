@@ -55,8 +55,10 @@ def signup():
     if record:  # user already exists
         abort(401)
 
+    user_pwd = data['sign_pass']
+    hashed_pwd = bcrypt.hashpw(user_pwd.encode('utf-8'), bcrypt.gensalt())
     query = "insert into users (username, password) values(%s, %s)"
-    values = (data['sign_user'], data['sign_pass'])
+    values = (data['sign_user'], hashed_pwd)  # database has hash pwd
     cursor = db.cursor()
     cursor.execute(query, values)
     db.commit()
@@ -80,11 +82,23 @@ def login():
         abort(401)
 
     user_id = record[0]
-    pwd = record[2]
-    # creating a hash pwd from record
-    hashed = bcrypt.hashpw(pwd.encode('utf-8'), bcrypt.gensalt())
+    hashed_pwd = record[2]
+    pwd = data['pass']
 
-    if bcrypt.hashpw(data['pass'].encode('utf-8'), hashed) != hashed:
+    pass_encode = pwd.encode('utf-8')
+
+    if not (bcrypt.checkpw(pass_encode, hashed_pwd.encode('utf-8'))):
+        abort(401)
+
+    # check re-login with same user
+    query = "select session_id from sessions where user_id=%s"
+    values = (user_id, )
+    cursor = db.cursor()
+    cursor.execute(query, values)
+    record = cursor.fetchone()
+    cursor.close()
+
+    if record:
         abort(401)
 
     query = "insert into sessions (user_id, session_id) values (%s, %s)"
